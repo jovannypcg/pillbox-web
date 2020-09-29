@@ -1,13 +1,18 @@
+import {LocationService} from './services/location-service';
+import {inject} from 'aurelia-framework';
+
+@inject(LocationService)
 export class App {
   message = 'Hello, Jovanny!';
 
-  constructor() {
+  constructor(locationService) {
     this.canvasHeight = 700;
     this.canvasWidth = 700;
+    this.locationService = locationService;
   }
 
   fetchLocations() {
-    alert('Siii');
+    this.locationService.fetchLocations();
   }
 
   plotImageData(ctx, binaryPixelArray) {
