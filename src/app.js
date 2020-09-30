@@ -1,34 +1,25 @@
 import {LocationService} from './services/location-service';
+import {DrawerService} from './services/drawer-service';
 import {inject} from 'aurelia-framework';
 
-@inject(LocationService)
+@inject(LocationService, DrawerService)
 export class App {
-  message = 'Hello, Jovanny!';
+  locationsCanvas = HTMLCanvasElement;
+  canvasHeight = 700;
+  canvasWidth = 700;
 
-  constructor(locationService) {
-    this.canvasHeight = 700;
-    this.canvasWidth = 700;
+  constructor(locationService, drawerService) {
     this.locationService = locationService;
+    this.drawerService = drawerService
   }
 
-  fetchLocations() {
-    this.locationService.fetchLocations();
+  attached() {
+    this.locationsCanvasContext = locationsCanvas.getContext('2d');
   }
 
-  plotImageData(ctx, binaryPixelArray) {
-    const pixelArray = binaryPixelArray
-      .map(v => {
-        const pixel = v ? 255 : 0;
-        const color = [pixel, pixel, pixel];
-        return [...color, 255];
-      })
-      .flat();
-    const pictureSize = Math.sqrt(binaryPixelArray.length);
-    const imageData = new ImageData(
-      new Uint8ClampedArray(pixelArray),
-      pictureSize,
-      pictureSize
-    );
-    ctx.putImageData(imageData, 0, 0);
+  getLocations() {
+    this.locationService.getLocations().then(data => {
+      this.drawerService.drawImage(this.locationsCanvasContext, data.grid);
+    });
   }
 }

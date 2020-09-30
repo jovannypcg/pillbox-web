@@ -1,8 +1,10 @@
 <template>
-  <h1>${message}</h1>
-  <canvas id="myCanvas" width=${canvasWidth} height=${canvasHeight} style="border:1px solid #d3d3d3;">
+  <button type="button" click.delegate="getLocations()">Load pillbox locations</button>
+  <br/>
+  <br/>
+
+  <canvas id="locationsCanvas" width=${canvasWidth} height=${canvasHeight} style="border:0px solid #d3d3d3;">
     Your browser does not support the HTML canvas tag.
   </canvas>
 
-  <button type="button" click.delegate="fetchLocations()">Click Me!</button>
 </template>
